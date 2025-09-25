@@ -2,6 +2,34 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 
 export default function Index() {
+  // FAQ preview data (sync with Faqs.tsx)
+  const faqPreview = [
+    {
+      q: "Are you an insurance company?",
+      a: "No, Medence is not an insurance company. However, we provide personalized legal services by connecting you with experienced lawyers on a before-the-event model of payment. This ensures you do not have to worry about any unforeseen legal expenses.",
+    },
+    {
+      q: "Why is the plan pricing so affordable while lawyers outside charge so high?",
+      a: "Medence provides affordable pricing by leveraging a scalable and aggregation model that enables us to offer legal services at a lower cost while maintaining high-quality expertise. Our focus is on providing value to customers without the high overhead costs associated with traditional law firms.",
+    },
+    {
+      q: "Can I avail the lawyer service after the trouble arises and not before?",
+      a: "While we specialise in providing before-the-event legal services to increase affordability, you can also avail the lawyer service after the event too. But in such cases the fees for litigation is higher and vary based on lawyers' charges.",
+    },
+    {
+      q: "Can I contact my personal lawyer in emergency situations?",
+      a: "Yes, you can reach your personal lawyer for urgent matters. However, please note that response times may slightly vary depending on the severity of the situation.",
+    },
+    {
+      q: "Is my information safe and confidential with Medence?",
+      a: "Yes, your information is secure and treated with the utmost confidentiality. We adhere to strict privacy policies to ensure that your legal matters and personal data are protected.",
+    },
+    {
+      q: "Do you have in-house lawyers?",
+      a: "No we don't have in-house lawyers per se. Instead we partner with qualified lawyers and firms across all major cities.",
+    },
+  ];
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const whyContainerRef = useRef<HTMLDivElement | null>(null);
   const inView = useInView(whyContainerRef, { amount: 0.6, once: false });
@@ -371,19 +399,17 @@ export default function Index() {
               <a href="/faqs" className="mt-6 inline-flex rounded-md bg-white border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">See All FAQ's</a>
             </div>
             <div className="grid gap-4">
-              {[
-                "Are you an insurance company?",
-                "Why is the plan pricing so affordable while lawyers outside charge so high?",
-                "Can I avail the lawyer service after the trouble arises and not before?",
-                "Can I contact my personal lawyer in emergency situations?",
-                "Is my information safe and confidential with Medence?",
-                "Do you have in-house lawyers?",
-              ].map((q) => (
-                <div key={q} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+              {faqPreview.map((item, idx) => (
+                <div key={item.q} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm cursor-pointer" onClick={() => setOpenFaq(openFaq === idx ? null : idx)}>
                   <div className="flex items-center justify-between">
-                    <p className="text-sm text-gray-800">{q}</p>
-                    <span className="ml-4 inline-flex h-7 w-7 items-center justify-center rounded-sm bg-[#0A58ED] text-white font-bold">+</span>
+                    <p className="text-sm text-gray-800">{item.q}</p>
+                    <span className={
+                      `ml-4 inline-flex h-7 w-7 items-center justify-center rounded-sm bg-[#0A58ED] text-white font-bold transition-transform duration-200 ${openFaq === idx ? 'rotate-45' : ''}`
+                    }>+</span>
                   </div>
+                  {openFaq === idx && (
+                    <div className="mt-3 text-gray-600 text-sm">{item.a}</div>
+                  )}
                 </div>
               ))}
             </div>

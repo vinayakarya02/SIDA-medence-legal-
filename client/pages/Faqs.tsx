@@ -5,59 +5,63 @@ export default function Faqs() {
     General: [
       {
         q: "What are included and excluded in the plan?",
-        a: "Each plan lists inclusions and exclusions on the pricing page. Typically, routine legal advice, document review, and basic consultations are included, while litigation costs and third-party fees are excluded.",
+        a: "See the pricing page for what's included and excluded in each plan.",
       },
       {
         q: "What are the different type plans?",
-        a: "We offer tiered plans to suit individuals and businesses — basic advisory plans, premium plans with dedicated lawyers, and enterprise options with tailored SLAs.",
+        a: "We offer basic, premium, and enterprise plans for different needs.",
       },
       {
         q: "Can I take more than one plan?",
-        a: "Yes. You can subscribe to multiple plans if you need different types of coverage for separate requirements.",
+        a: "Yes, you can subscribe to multiple plans for different requirements.",
       },
       {
         q: "Does the plan also include my family members?",
-        a: "Some plans include family cover — check the specific plan details or contact support for family add-on options.",
+        a: "Some plans include family cover. Check plan details for options.",
       },
     ],
     Plan: [
       {
         q: "Why is the plan pricing so affordable while lawyers outside charge so high?",
-        a: "We streamline routine legal workflows and leverage technology to reduce overhead, passing savings on to subscribers while maintaining quality.",
+        a: "Medence provides affordable pricing by leveraging a scalable and aggregation model that enables us to offer legal services at a lower cost while maintaining high-quality expertise. Our focus is on providing value to customers without the high overhead costs associated with traditional law firms.",
       },
       {
         q: "Can I upgrade and downgrade my plan later?",
-        a: "Yes. Plans can be upgraded or downgraded; billing adjustments are prorated according to our terms.",
+        a: "Yes, you can upgrade or downgrade your plan anytime.",
       },
     ],
     Lawyer: [
       {
         q: "Can I contact my personal lawyer in emergency situations?",
-        a: "Yes. Emergency escalation is available depending on your plan. Contact details and escalation policies are provided after onboarding.",
+        a: "Yes, emergency escalation is available depending on your plan.",
       },
       {
         q: "Do you have in-house lawyers?",
-        a: "We have an in-house legal team and a vetted network of partner lawyers for specialist matters.",
+        a: "We have in-house lawyers and a network of partners for special cases.",
       },
     ],
     Billing: [
       {
         q: "What payment methods do you accept?",
-        a: "We accept major debit/credit cards and UPI. For enterprise plans we also support bank transfers and invoices.",
+        a: "We accept cards, UPI, and for enterprise, bank transfers and invoices.",
       },
       {
         q: "How does billing and refunds work?",
-        a: "Billing is recurring monthly or yearly depending on your plan. Refunds follow our cancellation policy; contact support for help.",
+        a: "Billing is monthly or yearly. Refunds follow our cancellation policy.",
       },
     ],
     Others: [
       {
         q: "Is my information safe and confidential with Medence?",
-        a: "We follow strict confidentiality standards and implement best practices for data protection.",
+        a: "We follow strict confidentiality and data protection standards.",
       },
       {
         q: "How can I contact support for other queries?",
-        a: "Email support@medencelegal.in or use the contact form on our website for any additional questions.",
+        a: "Email support@medencelegal.in or use the contact form on our website.",
+      },
+      {
+        q: "Can I avail the lawyer service after the trouble arises and not before?",
+        a: "Yes, you can avail our lawyer service even after an issue arises.",
       },
     ],
   } as const;
@@ -95,7 +99,7 @@ export default function Faqs() {
           <div className="md:col-span-9">
             <div className="space-y-4">
               {data[active as keyof typeof data].map((item) => (
-                <details key={item.q} className="group rounded-md border border-gray-200 bg-white p-4">
+                <details key={item.q} className="group rounded-md border border-gray-200 bg-white p-4" open>
                   <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-medium text-foreground">
                     {item.q}
                     <span className="ml-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#3B82F6] text-white transition-transform group-open:rotate-45">+</span>
