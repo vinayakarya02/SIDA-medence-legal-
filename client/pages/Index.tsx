@@ -2,6 +2,29 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 
 export default function Index() {
+  // Testimonials carousel logic
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const [carouselScroll, setCarouselScroll] = useState(0);
+  const testimonialCards = [
+    { name: "Rahul Shrivastavan", title: "IT Professional", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2Fddbe3c201eea4587b5a43b8fd2290e84?format=webp&width=96", text: "We have been planning to buy our first ever property. It was this time when my close friend told me to get the documents checked thoroughly. I used Medence's service— their lawyer found a legal issue that could have landed me in major trouble. Just that one review saved me from some financial disaster. Kudos to the team!" },
+    { name: "Alok Mishra", title: "SDE Professional", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2F9fdb6849c2f14bb1bd5eef1fd01761e7?format=webp&width=96", text: "My flatmate came across medence over his social media about their free rental agreement checker. We were already in trouble by then though. Our landlord without any warning or reason cut our deposit. And since we were young corporate guys we didn't want to further risk our careers by retaliating against landlord. But medence helped us recover our money from him legally without our involvement. Many other lawyers outside that we approached before meeting medence have inflated costs that were almost double of our 55k deposit. Medence gave us an easy way out here with their flexible plans." },
+    { name: "Pradeep Kumar", title: "Textile Business Owner", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2Fab461f712b234b7a9895c150db291e93?format=webp&width=96", text: "The customer team is highly responsive. While the lawyer himself was very professional from the start, what impressed me truly was their customer support. They responded to my concerns and made me calm whenever I felt anxious with my legal issue." },
+    { name: "G.Sneha", title: "Government Service", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2Fb3f49228a0174aa1954fe6643ed5028d?format=webp&width=96", text: "I was so tired with other lawyers taking their money extracting business from me. Medence's simple pricing is such a relief. They handled my divorce case across multiple areas and got me results quicker than expected. Thank you!" },
+    { name: "Anita Verma", title: "Teacher", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2F453126c3221749d89bfdcadcb8eed7c8?format=webp&width=96", text: "Quick and dependable. They helped me with a rental dispute and made the process straightforward. Highly recommend Medence." },
+    { name: "Rohit Singh", title: "Startup Founder", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2F73301bd672cb4b35bf71b6a66bb275f1?format=webp&width=96", text: "Professional and prompt. The lawyer assigned to me was excellent and explained everything clearly. Saved me both time and money." },
+  ];
+  const handleCarouselScroll = (dir: 'prev' | 'next') => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+    const card = carousel.querySelector('.testimonial-card') as HTMLElement | null;
+    const gap = parseInt(window.getComputedStyle(carousel).gap || '16') || 16;
+    const step = card ? card.offsetWidth + gap : carousel.clientWidth;
+    if (dir === 'prev') {
+      carousel.scrollBy({ left: -step, behavior: 'smooth' });
+    } else {
+      carousel.scrollBy({ left: step, behavior: 'smooth' });
+    }
+  };
   // FAQ preview data (sync with Faqs.tsx)
   const faqPreview = [
     {
@@ -332,17 +355,10 @@ export default function Index() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h3 className="text-2xl font-bold text-primary mb-6 text-center">HEAR IT FROM OUR USERS</h3>
           <div className="relative">
-            <button aria-label="Prev" id="test-prev" style={{ top: '-60px' }} className="absolute right-20 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border bg-white shadow md:flex">‹</button>
-            <button aria-label="Next" id="test-next" style={{ top: '-60px' }} className="absolute right-4 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border bg-white shadow md:flex">›</button>
-            <div id="test-carousel" style={{ touchAction: 'pan-x' }} className="test-carousel flex overflow-x-auto gap-6 px-2 py-6 scrollbar-hide">
-              {[
-                { name: "Rahul Shrivastavan", title: "IT Professional", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2Fddbe3c201eea4587b5a43b8fd2290e84?format=webp&width=96", text: "We have been planning to buy our first ever property. It was this time when my close friend told me to get the documents checked thoroughly. I used Medence's service— their lawyer found a legal issue that could have landed me in major trouble. Just that one review saved me from some financial disaster. Kudos to the team!" },
-                { name: "Alok Mishra", title: "SDE Professional", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2F9fdb6849c2f14bb1bd5eef1fd01761e7?format=webp&width=96", text: "My flatmate came across medence over his social media about their free rental agreement checker. We were already in trouble by then though. Our landlord without any warning or reason cut our deposit. And since we were young corporate guys we didn't want to further risk our careers by retaliating against landlord. But medence helped us recover our money from him legally without our involvement. Many other lawyers outside that we approached before meeting medence have inflated costs that were almost double of our 55k deposit. Medence gave us an easy way out here with their flexible plans." },
-                { name: "Pradeep Kumar", title: "Textile Business Owner", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2Fab461f712b234b7a9895c150db291e93?format=webp&width=96", text: "The customer team is highly responsive. While the lawyer himself was very professional from the start, what impressed me truly was their customer support. They responded to my concerns and made me calm whenever I felt anxious with my legal issue." },
-                { name: "G.Sneha", title: "Government Service", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2Fb3f49228a0174aa1954fe6643ed5028d?format=webp&width=96", text: "I was so tired with other lawyers taking their money extracting business from me. Medence's simple pricing is such a relief. They handled my divorce case across multiple areas and got me results quicker than expected. Thank you!" },
-                { name: "Anita Verma", title: "Teacher", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2F453126c3221749d89bfdcadcb8eed7c8?format=webp&width=96", text: "Quick and dependable. They helped me with a rental dispute and made the process straightforward. Highly recommend Medence." },
-                { name: "Rohit Singh", title: "Startup Founder", avatar: "https://cdn.builder.io/api/v1/image/assets%2F32d1f95fc1db4a6d9516e739d9dc7510%2F73301bd672cb4b35bf71b6a66bb275f1?format=webp&width=96", text: "Professional and prompt. The lawyer assigned to me was excellent and explained everything clearly. Saved me both time and money." },
-              ].map((t) => (
+            <button aria-label="Prev" style={{ top: '-60px' }} className="absolute right-20 z-20 h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border bg-white shadow md:flex hidden" onClick={() => handleCarouselScroll('prev')}>‹</button>
+            <button aria-label="Next" style={{ top: '-60px' }} className="absolute right-4 z-20 h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border bg-white shadow md:flex hidden" onClick={() => handleCarouselScroll('next')}>›</button>
+            <div ref={carouselRef} style={{ touchAction: 'pan-x' }} className="test-carousel flex overflow-x-auto gap-6 px-2 py-6 scrollbar-hide">
+              {testimonialCards.map((t) => (
                 <div key={t.name} className="testimonial-card flex-shrink-0 w-[90vw] md:w-80 lg:w-96 max-w-3xl rounded-lg border border-gray-200 p-6 bg-white mx-2 min-h-[480px]">
                   <div className="flex items-center gap-2">
                     <img src={t.avatar} alt="avatar" className="h-10 w-10 rounded-full object-cover" />
@@ -392,26 +408,28 @@ export default function Index() {
       {/* FAQ preview */}
       <section className="bg-gray-50 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="grid gap-8 md:grid-cols-[1.2fr_2.5fr]">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-black">Frequently Asked<br/>Questions</h2>
               <p className="mt-3 text-sm text-gray-700">Still have any questions? Contact our Team via<br/><a href="mailto:support@medencelegal.in" className="text-[#3B82F6] underline">support@medencelegal.in</a></p>
               <a href="/faqs" className="mt-6 inline-flex rounded-md bg-white border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">See All FAQ's</a>
             </div>
-            <div className="grid gap-4">
-              {faqPreview.map((item, idx) => (
-                <div key={item.q} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm cursor-pointer" onClick={() => setOpenFaq(openFaq === idx ? null : idx)}>
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-gray-800">{item.q}</p>
-                    <span className={
-                      `ml-4 inline-flex h-7 w-7 items-center justify-center rounded-sm bg-[#0A58ED] text-white font-bold transition-transform duration-200 ${openFaq === idx ? 'rotate-45' : ''}`
-                    }>+</span>
+            <div className="rounded-xl border border-gray-200 bg-white p-6 w-full">
+              <div className="grid gap-4">
+                {faqPreview.map((item, idx) => (
+                  <div key={item.q} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm cursor-pointer" onClick={() => setOpenFaq(openFaq === idx ? null : idx)}>
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-bold text-gray-800">{item.q}</p>
+                      <span className={
+                        `ml-4 inline-flex h-7 w-7 items-center justify-center rounded-sm bg-[#0A58ED] text-white font-bold transition-transform duration-200 ${openFaq === idx ? 'rotate-45' : ''}`
+                      }>+</span>
+                    </div>
+                    {openFaq === idx && (
+                      <div className="mt-3 text-gray-600 text-sm">{item.a}</div>
+                    )}
                   </div>
-                  {openFaq === idx && (
-                    <div className="mt-3 text-gray-600 text-sm">{item.a}</div>
-                  )}
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -420,81 +438,3 @@ export default function Index() {
   );
 }
 
-// Add carousel auto-scroll and controls behavior
-const runCarouselScript = () => {
-  const carousel = document.getElementById('test-carousel') as HTMLElement | null;
-  const prev = document.getElementById('test-prev');
-  const next = document.getElementById('test-next');
-  if (!carousel) return;
-  let rafId: number | null = null;
-  let lastTime = 0;
-  const speed = 80; // pixels per second
-
-  const start = () => {
-    stop();
-    if (!carousel.dataset.cloned) {
-      const children = Array.from(carousel.children) as HTMLElement[];
-      const style = window.getComputedStyle(carousel as Element) as CSSStyleDeclaration & { gap?: string };
-      const gap = parseInt(style.gap || style.columnGap || '16') || 16;
-      let originalWidth = 0;
-      children.forEach((c) => {
-        originalWidth += c.offsetWidth + gap;
-      });
-      carousel.dataset.originalWidth = String(originalWidth);
-      children.forEach((c) => {
-        const clone = c.cloneNode(true) as HTMLElement;
-        carousel.appendChild(clone);
-      });
-      carousel.dataset.cloned = 'true';
-    }
-
-    lastTime = performance.now();
-
-    const stepFn = (time: number) => {
-      const elapsed = time - lastTime;
-      lastTime = time;
-      const originalWidth = parseFloat(carousel.dataset.originalWidth || '0');
-      const delta = (speed * elapsed) / 1000;
-      carousel.scrollLeft = carousel.scrollLeft + delta;
-      if (originalWidth && carousel.scrollLeft >= originalWidth) {
-        carousel.scrollLeft = carousel.scrollLeft - originalWidth;
-      }
-      rafId = requestAnimationFrame(stepFn);
-    };
-
-    rafId = requestAnimationFrame(stepFn);
-  };
-
-  const stop = () => {
-    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-  };
-
-  if (prev && next) {
-    prev.addEventListener('click', () => {
-      stop();
-      const card = carousel.querySelector('.testimonial-card') as HTMLElement | null;
-      const step = card ? card.offsetWidth + (parseInt(window.getComputedStyle(carousel as Element).gap || '16') || 16) : carousel.clientWidth;
-      carousel.scrollBy({ left: -step, behavior: 'smooth' });
-      setTimeout(() => start(), 700);
-    });
-    next.addEventListener('click', () => {
-      stop();
-      const card = carousel.querySelector('.testimonial-card') as HTMLElement | null;
-      const step = card ? card.offsetWidth + (parseInt(window.getComputedStyle(carousel as Element).gap || '16') || 16) : carousel.clientWidth;
-      carousel.scrollBy({ left: step, behavior: 'smooth' });
-      setTimeout(() => start(), 700);
-    });
-  }
-
-  carousel.addEventListener('mouseenter', stop);
-  carousel.addEventListener('mouseleave', start);
-  carousel.addEventListener('pointerdown', stop);
-  carousel.addEventListener('pointerup', () => setTimeout(() => start(), 600));
-
-  start();
-};
-
-// Run after DOMContent loaded
-if (typeof window !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', runCarouselScript);
-}
